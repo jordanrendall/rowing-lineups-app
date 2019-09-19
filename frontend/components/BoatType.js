@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import Boat from './Boat';
 const BoatStyles = styled.article`
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   align-items: center;
   padding: 10px;
@@ -12,13 +13,24 @@ const BoatStyles = styled.article`
   }
 `;
 
-const BoatType = ({ name, seats, addNewBoat, cox }) => {
-  const [boats, setBoats] = useState([]);
+const BoatType = ({ name, seats, cox, disabled }) => {
+  const [boats, setBoats] = useState();
+  const addNewBoat = e => {
+    const seats = e.target.getAttribute('seats');
+    const cox = e.target.getAttribute('cox');
+    let boatList = [];
+    if (boats) {
+      boatList = [...boats, { seats: seats, cox: cox }];
+    } else {
+      boatList = [{ seats: seats, cox: cox }];
+    }
+    setBoats(boatList);
+  };
   return (
     <BoatStyles>
       <h3>{name}</h3>
-      <AddBoat seats={seats} click={addNewBoat} />
-      {boats.length > 0 &&
+      <AddBoat seats={seats} click={addNewBoat} cox={cox} disabled={disabled} />
+      {boats &&
         boats.map((boat, i) => {
           return (
             <Boat

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import BoatType from './BoatType';
 const BoatsStyles = styled.article`
@@ -6,26 +6,35 @@ const BoatsStyles = styled.article`
   justify-content: space-around;
 `;
 
-const Boats = () => {
-  const addNewBoat = e => {
-    console.log(e.target.id);
-  };
+const Boats = ({ unallocatedAthletes }) => {
   return (
     <BoatsStyles>
-      <BoatType name='Eight' seats={8} cox={'yes'} addNewBoat={addNewBoat} />
+      <BoatType
+        name='Eight'
+        seats={8}
+        cox={'yes'}
+        disabled={
+          unallocatedAthletes.rowers < 8 || unallocatedAthletes.coxies === 0
+        }
+      />
       <BoatType
         name='Four/Quad'
         seats={4}
         cox={'maybe'}
-        addNewBoat={addNewBoat}
+        disabled={unallocatedAthletes.rowers < 4}
       />
       <BoatType
         name='Pair/Double'
         seats={2}
         cox={'no'}
-        addNewBoat={addNewBoat}
+        disabled={unallocatedAthletes.rowers < 2}
       />
-      <BoatType name='Single' seats={1} cox={'no'} addNewBoat={addNewBoat} />
+      <BoatType
+        name='Single'
+        seats={1}
+        cox={'no'}
+        disabled={unallocatedAthletes.rowers === 0}
+      />
     </BoatsStyles>
   );
 };

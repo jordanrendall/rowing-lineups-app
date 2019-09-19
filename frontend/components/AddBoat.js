@@ -1,8 +1,14 @@
 import React from 'react';
 
-const AddBoat = ({ click, seats }) => {
+const AddBoat = ({ click, seats, cox, disabled }) => {
   return (
-    <button id={`addBoat-${seats}`} onClick={click}>
+    <button
+      disabled={disabled}
+      id={`addBoat-${seats}`}
+      seats={seats}
+      cox={cox}
+      onClick={click}
+    >
       +
     </button>
   );

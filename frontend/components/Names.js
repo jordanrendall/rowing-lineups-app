@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import AddNames from './AddNames';
 import styled from 'styled-components';
 
@@ -12,11 +12,29 @@ const NamesStyles = styled.article`
   }
 `;
 
-const Names = () => {
+const Names = ({ setAthleteCount }) => {
+  const [nameInput, setNameInput] = useState('');
+  const [names, setNames] = useState([]);
+  const addName = () => {
+    setNames(prevState => [...prevState, nameInput]);
+    setNameInput('');
+    setAthleteCount(prevState => ({
+      rowers: prevState.rowers + 1,
+    }));
+  };
+  const updateNameInput = e => {
+    setNameInput(e.target.value);
+  };
   return (
     <NamesStyles>
-      <h2>Names</h2>
-      <AddNames />
+      <h2>Athletes{names.length > 0 && ` (${names.length})`}</h2>
+      <AddNames addName={addName} />
+      <input type='text' value={nameInput} onChange={updateNameInput} />
+      <ul>
+        {names.map((name, i) => {
+          return <li key={`name-${i}`}>{name}</li>;
+        })}
+      </ul>
     </NamesStyles>
   );
 };
